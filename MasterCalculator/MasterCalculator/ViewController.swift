@@ -15,6 +15,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var finalResults: UILabel!
     private var userIsTyping =  false
     private var calculator = CalculatorBrain()
+    var floatingPoint = String(",")
+    var floatingPointClicked = true
 
     var displayValue: Double{
         get{
@@ -27,7 +29,6 @@ class ViewController: UIViewController {
     }
     @IBAction func buttonClick(_ sender: UIButton) {
         let number = sender.currentTitle!
-        
         if userIsTyping {
             let currentText = results.text!
             results.text = currentText + number
@@ -37,7 +38,16 @@ class ViewController: UIViewController {
             userIsTyping = true
         }
         
+        if number == floatingPoint {
+            if floatingPointClicked {
+                return
+            }else{
+                floatingPointClicked = true
+            }
+        }
         
+        
+
     }
     
     @IBAction func clear(_ sender: UIButton) {
@@ -65,17 +75,15 @@ class ViewController: UIViewController {
         if let mathSymbol = sender.currentTitle{
             calculator.performOperation(mathSymbol)
         
-            
-            if calculator.resultIsPending == true {
-                 //finalResults.text = calculator.sequenceDescription(mathSymbol:mathSymbol)
+           
+                if calculator.resultIsPending == true {
+                    finalResults.text = calculator.sequenceDescription(mathSymbol:mathSymbol)
+                    
+                }
                 
-               let text = finalResults.text!
-               finalResults.text = text + String(displayValue) + calculator.symbolBetween + "...."
-                
-            }else if calculator.resultIsPending == true     {
-                let text = finalResults.text!
-                finalResults.text = calculator.fullDescription(text, mathSymbol: calculator.symbolBetween, Op2: displayValue, symbol: mathSymbol)
-            }
+                if calculator.resultIsPending == false {
+                    finalResults.text = calculator.fullDescription(calculator.op1, mathSymbol: calculator.symbolBetween, Op2: displayValue, symbol: mathSymbol)
+                }
             
             if mathSymbol == "㏒" && results.text != ""{
                 finalResults.text = "log(" + results.text! + ")"
@@ -150,7 +158,6 @@ class ViewController: UIViewController {
             }else if mathSymbol == "±"{
                 finalResults.text = String("")
             }
-            
         }
         
         

@@ -32,6 +32,7 @@ func squareOperation(_ Operand: Double) -> Double {
     return pow(Operand, 2)
 }
 
+
 struct CalculatorBrain {
     enum Operations {
         case EmptyOperation(Double)
@@ -81,9 +82,9 @@ struct CalculatorBrain {
                 if accumulator != nil {
                     accumulator = function(accumulator!)
                 }
-            case .BinaryOperation(let value):
+            case .BinaryOperation(let function):
                 if accumulator != nil {
-                    binaryOperation = BinaryOperation(function: value, firstOperand: accumulator!, secondOperand: accumulator!)
+                    binaryOperation = BinaryOperation(function: function, firstOperand: accumulator!, secondOperand: accumulator!)
                     op1 = String(accumulator!)
                     resultIsPending = true
                     symbolBetween = mathSymbol
@@ -99,7 +100,7 @@ struct CalculatorBrain {
     }
     
     mutating func performBinaryOperation(){
-        if accumulator != nil {
+        if accumulator != nil && binaryOperation != nil{
             accumulator = binaryOperation.perform(accumulator!)
             resultIsPending = false
         }
@@ -122,13 +123,6 @@ struct CalculatorBrain {
         resultIsPending = true
         return description
     }
-    
-    /*mutating func fullDescription(_ Op1: Double, mathSymbol: String, Op2: Double, symbol: String) -> String {
-        //if accumulator != nil{
-            description =  String(Op1) + mathSymbol + String(Op2) + symbol
-        //}
-        return description
-    }*/
     
     mutating func fullDescription(_ Op1: String, mathSymbol: String, Op2: Double,symbol: String) -> String {
         if accumulator != nil{

@@ -74,7 +74,9 @@ struct CalculatorBrain {
         if let operation = engine[mathSymbol]{
             switch operation {
             case .EmptyOperation(let value):
-                accumulator = value
+                if accumulator != nil{
+                    accumulator = value
+                }
             case .UnaryOperation(let function):
                 if accumulator != nil {
                     accumulator = function(accumulator!)
@@ -116,6 +118,7 @@ struct CalculatorBrain {
         if accumulator != nil{
             description = String(accumulator!) + mathSymbol + ellipses
         }
+        
         resultIsPending = true
         return description
     }
@@ -129,14 +132,14 @@ struct CalculatorBrain {
     
     mutating func fullDescription(_ Op1: String, mathSymbol: String, Op2: Double,symbol: String) -> String {
         if accumulator != nil{
-        description =  String(Op1) + mathSymbol + String(Op2
+        description =  Op1 + mathSymbol + String(Op2
             ) + symbol
         }
         return description
     }
     
     
-    var result: Double! {
+    var result: Double? {
         get{
             return accumulator
         }

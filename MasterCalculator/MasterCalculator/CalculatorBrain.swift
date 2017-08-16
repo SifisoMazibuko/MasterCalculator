@@ -132,6 +132,10 @@ struct CalculatorBrain {
         return description
     }
     
+    mutating func multiDescription(_ Op1: String, mathSymbol: String, Op2: Double,  Symbol: String, Op3: Double, symbol: String) -> String {
+        description = Op1 + mathSymbol + String(Op2) + Symbol + String(Op3) + symbol
+        return description
+    }
     
     var result: Double? {
         get{
